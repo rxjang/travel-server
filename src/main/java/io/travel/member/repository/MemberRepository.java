@@ -1,6 +1,6 @@
 package io.travel.member.repository;
 
-import io.travel.exception.MemberNotFoundException;
+import io.travel.exception.notfound.MemberNotFoundException;
 import io.travel.member.model.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -1,6 +1,6 @@
-package io.travel.exception;
+package io.travel.exception.notfound;
 
-public class TravelNotFoundException extends RuntimeException {
+public class TravelNotFoundException extends NotFoundException {
 
     public TravelNotFoundException(String message) {
         super(message);

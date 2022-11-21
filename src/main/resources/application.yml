@@ -1,8 +1,13 @@
 spring:
+  sql:
+    init:
+      mode: always
+      data-locations: classpath:sql/data-h2.sql
+      schema-locations: classpath:sql/schema-h2.sql
   h2:
     console:
       enabled: true
-      path: /travel
+      path: /h2
       settings:
         trace: false
         web-allow-others: false

@@ -13,6 +13,8 @@ public class TravelResponse {
 
     private String cityName;
 
+    private String tourist;
+
     private LocalDateTime startDate;
 
     private LocalDateTime endDate;
@@ -21,15 +23,18 @@ public class TravelResponse {
         return TravelResponse.builder()
                 .id(travel.getId())
                 .cityName(travel.getCity().getName())
+                .tourist(travel.getMember().getName())
                 .startDate(travel.getStartDate())
                 .endDate(travel.getEndDate())
                 .build();
     }
 
     @Builder
-    public TravelResponse(Long id, String cityName, LocalDateTime startDate, LocalDateTime endDate) {
+
+    public TravelResponse(Long id, String cityName, String tourist, LocalDateTime startDate, LocalDateTime endDate) {
         this.id = id;
         this.cityName = cityName;
+        this.tourist = tourist;
         this.startDate = startDate;
         this.endDate = endDate;
     }

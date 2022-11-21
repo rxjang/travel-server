@@ -1,6 +1,6 @@
-package io.travel.exception;
+package io.travel.exception.notfound;
 
-public class MemberNotFoundException extends RuntimeException {
+public class MemberNotFoundException extends NotFoundException {
 
     public MemberNotFoundException(String message) {
         super(message);

@@ -2,6 +2,7 @@ package io.travel.travel.model.entity;
 
 import io.travel.city.model.entity.City;
 import io.travel.common.CommonFields;
+import io.travel.exception.invalidrequest.InvalidDateException;
 import io.travel.member.model.entity.Member;
 import io.travel.travel.model.dto.TravelCreateRequest;
 import io.travel.travel.model.dto.TravelUpdateRequest;
@@ -22,7 +23,7 @@ import javax.persistence.Table;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "travle")
+@Table(name = "travel")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Travel extends CommonFields {
@@ -67,7 +68,20 @@ public class Travel extends CommonFields {
         if (endDate != null) {
             this.endDate = endDate;
         }
+    }
 
+    public void validateEndDate() {
+        if (isEndDateBeforeNow() || isEndDateBeforeStartDate()) {
+            throw new InvalidDateException();
+        }
+    }
+
+    private boolean isEndDateBeforeNow() {
+        return this.endDate.isBefore(LocalDateTime.now());
+    }
+
+    private boolean isEndDateBeforeStartDate() {
+        return this.endDate.isBefore(this.startDate);
     }
 
     public static Travel of(final City city, final Member member, final TravelCreateRequest request) {

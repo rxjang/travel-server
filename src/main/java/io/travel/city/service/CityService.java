@@ -5,6 +5,8 @@ import io.travel.city.model.dto.CityResponse;
 import io.travel.city.model.dto.CityUpdateRequest;
 import io.travel.city.model.entity.City;
 import io.travel.city.repository.CityRepository;
+import io.travel.exception.invalidrequest.CannotDeleteCityException;
+import io.travel.travel.repository.TravelRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,9 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class CityService {
 
     private final CityRepository cityRepository;
+    private final TravelRepository travelRepository;
 
-    public CityService(CityRepository cityRepository) {
+    public CityService(final CityRepository cityRepository, final TravelRepository travelRepository) {
         this.cityRepository = cityRepository;
+        this.travelRepository = travelRepository;
     }
 
     @Transactional
@@ -26,7 +30,7 @@ public class CityService {
     }
 
     public CityResponse getOne(final Long id) {
-        final City city =cityRepository.getById(id);
+        final City city = cityRepository.getById(id);
         return CityResponse.from(city);
     }
 
@@ -40,9 +44,23 @@ public class CityService {
 
     @Transactional
     public void delete(final Long id) {
-        // TODO 지정된 여행 있는지 체크
         City city = cityRepository.getById(id);
+        checkCouldDeleteCity(city);
         cityRepository.delete(city);
+    }
+
+    private void checkCouldDeleteCity(City city) {
+        if (travelRepository.existsByCity(city)) {
+            // TODO check 모든 여행, 진행 중인 여행만?
+            throw new CannotDeleteCityException();
+        }
+    }
+
+    /**
+     * TODO 사용자 별 도시 목록 조회
+     */
+    public void search() {
+
     }
 
 }

@@ -1,7 +1,7 @@
 package io.travel.city.repository;
 
 import io.travel.city.model.entity.City;
-import io.travel.exception.CityNotFoundException;
+import io.travel.exception.notfound.CityNotFoundException;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CityRepository extends JpaRepository<City, Long> {

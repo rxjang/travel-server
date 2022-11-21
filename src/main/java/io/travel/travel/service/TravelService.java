@@ -28,10 +28,10 @@ public class TravelService {
 
     @Transactional
     public Long create(final TravelCreateRequest request) {
-        // TODO date 체크
         City city = cityRepository.getById(request.getCityId());
         Member member = memberRepository.getById(request.getMemberId());
         Travel travel = travelRepository.save(Travel.of(city, member, request));
+        travel.validateEndDate();
         return travel.getId();
     }
 
@@ -45,6 +45,7 @@ public class TravelService {
         City city = request.getCityId() == null ? null : cityRepository.getById(id);
         Travel travel = travelRepository.getById(id);
         travel.update(city, request);
+        travel.validateEndDate();
         travelRepository.save(travel);
     }
 
