@@ -1,11 +1,15 @@
 package io.travel.travel.model.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class TravelCreateRequest {
 
     @NotNull(message = "도시를 선택해주세요")

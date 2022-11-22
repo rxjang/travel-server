@@ -1,9 +1,19 @@
 spring:
+  profiles:
+    active: deployment
+
+---
+spring:
+  config:
+    activate:
+      on-profile: deployment, test
+
   sql:
     init:
       mode: always
       data-locations: classpath:sql/data-h2.sql
       schema-locations: classpath:sql/schema-h2.sql
+
   h2:
     console:
       enabled: true
@@ -23,3 +33,13 @@ spring:
     driver-class-name: org.h2.Driver
     username: sa
     password:
+
+---
+spring:
+  config:
+    activate:
+      on-profile: production
+
+  jpa:
+    hibernate:
+      ddl-auto: none

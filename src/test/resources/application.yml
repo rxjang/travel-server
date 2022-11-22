@@ -1,0 +1,9 @@
+spring:
+  profiles:
+    active: test
+
+  sql:
+    init:
+      mode: always
+      data-locations: classpath:sql/data-h2.sql
+      schema-locations: classpath:sql/schema-h2.sql
