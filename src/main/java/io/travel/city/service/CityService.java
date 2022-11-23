@@ -1,5 +1,6 @@
 package io.travel.city.service;
 
+import io.travel.city.model.dto.CityByMemberResponse;
 import io.travel.city.model.dto.CityCreateRequest;
 import io.travel.city.model.dto.CityResponse;
 import io.travel.city.model.dto.CityUpdateRequest;
@@ -9,6 +10,8 @@ import io.travel.exception.invalidrequest.CannotDeleteCityException;
 import io.travel.travel.repository.TravelRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -56,11 +59,8 @@ public class CityService {
         }
     }
 
-    /**
-     * TODO 사용자 별 도시 목록 조회
-     */
-    public void search() {
-
+    public List<CityByMemberResponse> getCitiesByMember(final Long memberId) {
+        return cityRepository.findCitiesByMemberId(memberId);
     }
 
 }

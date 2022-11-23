@@ -1,5 +1,6 @@
 package io.travel.city.api;
 
+import io.travel.city.model.dto.CityByMemberResponse;
 import io.travel.city.model.dto.CityCreateRequest;
 import io.travel.city.model.dto.CityResponse;
 import io.travel.city.model.dto.CityUpdateRequest;
@@ -13,10 +14,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/cities")
@@ -57,6 +60,12 @@ public class CityApi {
         return ResponseEntity
                 .noContent()
                 .build();
+    }
+
+    @GetMapping
+    public ResponseEntity<List<CityByMemberResponse>> cities(@RequestParam("member") final Long memberId) {
+        return ResponseEntity
+                .ok(cityService.getCitiesByMember(memberId));
     }
 
 }
