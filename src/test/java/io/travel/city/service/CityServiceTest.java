@@ -75,7 +75,7 @@ class CityServiceTest {
         CityCreateRequest request = new CityCreateRequest(CITY_NAME);
 
         // when
-        Long id = cityService.save(request);
+        Long id = cityService.create(request);
         CityResponse response = cityService.getOne(id);
 
         // then

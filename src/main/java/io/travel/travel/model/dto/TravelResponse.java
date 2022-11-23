@@ -3,10 +3,12 @@ package io.travel.travel.model.dto;
 import io.travel.travel.model.entity.Travel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Getter
+@NoArgsConstructor
 public class TravelResponse {
 
     private Long id;

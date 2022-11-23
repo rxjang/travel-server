@@ -30,7 +30,7 @@ public class CityApi {
 
     @PostMapping
     public ResponseEntity<City> create(@RequestBody @Valid final CityCreateRequest request) {
-        Long id = cityService.save(request);
+        Long id = cityService.create(request);
         return ResponseEntity
                 .created(URI.create(String.format("/api/v1/city/%d", id)))
                 .build();

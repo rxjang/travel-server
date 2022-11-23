@@ -8,21 +8,12 @@ import io.travel.city.service.CityService;
 import io.travel.exception.invalidrequest.CannotDeleteCityException;
 import io.travel.exception.notfound.CityNotFoundException;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.validation.BeanPropertyBindingResult;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-
-import java.lang.reflect.Method;
-import java.util.Arrays;
 
 import static io.travel.common.Constants.CITY_NAME;
 import static org.mockito.ArgumentMatchers.any;
@@ -30,7 +21,6 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.BDDMockito.willThrow;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
@@ -56,7 +46,7 @@ class CityApiTest {
         // given
         CityCreateRequest request = new CityCreateRequest(CITY_NAME);
 
-        given(cityService.save(any())).willReturn(1L);
+        given(cityService.create(any())).willReturn(1L);
 
         // when
         // then

@@ -23,7 +23,7 @@ public class CityService {
     }
 
     @Transactional
-    public Long save(final CityCreateRequest request) {
+    public Long create(final CityCreateRequest request) {
         return cityRepository
                 .save(City.from(request))
                 .getId();
