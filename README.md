@@ -315,7 +315,7 @@ Content-Type: application/json
 </details>
 
 ## 핵심 기능 구현
-###  지정된 여행이 없을 경우만 도시 삭제
+###  👉 지정된 여행이 없을 경우만 도시 삭제
 여행 기간이 지난 여행이라도, 여행이 한 번이라도 등록되면 삭제 불가능하게 구현했습니다. 당장의 여행이 없더라도, 사용자가 기록을 확인 해야 한다고 생각했습니다.
 ``` java
 private void checkCouldDeleteCity(City city) {
@@ -335,31 +335,31 @@ limit을 통해 존재 여부를 확인하고, java code에서는 boolean값으�
     "message": "진행 중인 여행이 있으므로 도시 삭제가 불가능합니다."
 }
 ```
-### 여행 종료일은 미래만 허용
+### 👉 여행 종료일은 미래만 허용
 여행을 등록, 수정할 때 모두 종료일을 체크 해야하므로, 해당 로직은 `travel` 도메인 내에 구현했습니다.
 ``` java
 public void validateEndDate() {
-        if (isEndDateBeforeNow() || isEndDateBeforeStartDate()) {
-            throw new InvalidDateException();
-        }
+    if (isEndDateBeforeNow() || isEndDateBeforeStartDate()) {
+        throw new InvalidDateException();
     }
+}
 
-    private boolean isEndDateBeforeNow() {
-        return this.endDate.isBefore(LocalDateTime.now());
-    }
+private boolean isEndDateBeforeNow() {
+    return this.endDate.isBefore(LocalDateTime.now());
+}
 
-    private boolean isEndDateBeforeStartDate() {
-        return this.endDate.isBefore(this.startDate);
-    }
+private boolean isEndDateBeforeStartDate() {
+    return this.endDate.isBefore(this.startDate);
+}
 ```
-`isEndDateBeforeNow()` 는 종료일이 현재보다 과거인지를, `isEndDateBeforeStartDate()` 는 시작일이 종료일보다 과거인지를 체크합니다.
-`validateEndDate()` 는 둘 중 하나의 값이라도 ture가 나오면 `InvalidDateException` 예외를 던집니다. 사용자는 아래의 메시지를 받게 됩니다.
+`isEndDateBeforeNow()`  는 종료일이 현재보다 과거인지를,  `isEndDateBeforeStartDate()`  는 시작일이 종료일보다 과거인지를 체크합니다.
+`validateEndDate()`  는 둘 중 하나의 값이라도 ture가 나오면  `InvalidDateException`  예외를 던집니다. 사용자는 아래의 메시지를 받게 됩니다.
 ```json
 {
     "message": "여행 종료일은 현재 또는 시작일보다 미래여야 합니다."
 }
 ```
-### 사용자별 도시 목록 조회 정렬
+### 👉 사용자별 도시 목록 조회 정렬
 정렬 기준은 아래와 같습니다.
 * 중복 없이 상위 10개의 도시만 노출 (Pagination 없음)
 * 여행 중인 도시는 중복이 허용되며 노출 개수와 무관
@@ -367,7 +367,79 @@ public void validateEndDate() {
 * 여행 예정된 도시: 여행 시작일이 가까운 것부터
 * 하루 이내에 등록된 도시: 기장 최근에 등록한 것부터 ==> 하루 이내에 등록된 도시만 정렬
 * 최근 일주일 이내에 한 번 이상 조회된 도시: 가장 최근에 조회한 것부터
-* 위의 조건에 해당하지 않는 모든 도시: 무작위
+* 위의 조건에 해당하지 않는 모든 도시: 무작위  
+
+여행 중인 도시는 중복이 허용됩니다. 즉, 사용자가 서울을 여행중이고, 다른 정렬 조건에 또 서울이 있다면 서울은 목록 내에 2번 보일 수 있고, 총 목록의 갯수는 11개가 됩니다. 
+이 조건과 여행 중인 도시는 노출 개수와 무관하다는 조건을 통해, 해당 로직은 총 2번의 쿼리로 구현했습니다. 
+``` java
+public List<CityByMemberResponse> findTravelingCity(final Long memberId, final LocalDateTime now) {
+    return jpaQueryFactory
+            .select(new QCityByMemberResponse(
+                    city.id,
+                    city.name,
+                    travel.startDate,
+                    city.createdAt
+            ))
+            .from(travel)
+            .join(travel.city, city)
+            .where(travel.member.id.eq(memberId),
+                    travel.startDate.before(now),
+                    travel.endDate.after(now))
+            .orderBy(travel.startDate.asc())
+            .fetch();
+}
+```
+여행 중인 도시를 찾는 쿼리 입니다. 이미 여행이 끝났거나, 여행이 시작되지 않은 데이터는 제외 시켜야되므로 where절에 위와 같이 구현했습니다. 
+여행 중인 도시는 시작일이 빠른 것이 먼저 노출되므로, `startDate`  오름차순으로 정렬했습니다.
+``` java
+public List<CityByMemberResponse> findCitiesByMemberId(final Long memberId, final LocalDateTime now) {
+
+        DateTimeExpression<LocalDateTime> enrolledOrder = new CaseBuilder()
+                .when(city.createdAt.after(now.minusDays(1)))
+                .then(city.createdAt)
+                .otherwise(LocalDateTime.MIN);
+
+        return jpaQueryFactory
+                .select(new QCityByMemberResponse(
+                        city.id,
+                        city.name,
+                        Expressions.asBoolean(false),
+                        travel.startDate,
+                        city.createdAt,
+                        cityViewHistory.createdAt
+                ))
+                .from(city)
+                .leftJoin(travel).on(city.eq(travel.city),
+                        travel.member.id.eq(memberId),
+                        travel.startDate.after(now))
+                .leftJoin(cityViewHistory).on(city.eq(cityViewHistory.city),
+                        cityViewHistory.member.id.eq(memberId),
+                        cityViewHistory.createdAt.after(now.minusWeeks(1)))
+                .orderBy(
+                        travel.startDate.asc().nullsLast(), // 1
+                        enrolledOrder.desc(),   // 2
+                        cityViewHistory.createdAt.desc())   // 3
+                .limit(10)
+                .fetch();
+    }
+```
+우선 _조회 여부는 해당 API를 사용하는 사용자의 조회 이력을 기준으로 했습니다._  도시들 중에 여행, 조회 여부와 무관한 도시가 있을 수 있으므로  `travel`,  `cityViewHistory` 와 leftJoin을 사용했습니다. 
+사용자 정보는 이 두 테이블과 연관이 있으므로, 관련 조건은 on절 안으로 넣었습니다.
+orderBy에는 총 세 가지의 정렬 조건이 있습니다. 
+1. 여행 시작일이 빠른 것부터  
+    우선 여행 시작일의 오름차순으로 정렬했습니다. 그러자 여행 데이터가 없는(null) 도시들이 먼저 보여져, nullLast()를 통해 null 값이 나중에 오도록 했습니다.
+2. 하루 이내에 등록된 도시는 가장 최근에 등록한 것부터  
+    우선 총 목록에서 하루 이내 등록 된(등록은 과거만 가능)도시만 걸러야 했으므로, `DateTimeExpression()` 를 사용했습니다.
+    하루 이내일 경우는 등록된 시간으로, 아닐 경우는 `LocalDateTime.MIN` 값을 주어 내림차순으로 정렬했습니다. 
+3. 최근 일주일 이내 조회 이력이 있는 도시는 가장 최근에 조회한 것부터  
+   일주일 이내에 조회된 이력이 없는 도시의 조회 데이터는 필요하지 않으므로 on절에서 제외시켰습니다. 그리곤 조회일 내림차순으로 정렬했습니다.
+
+
+## 개선이 필요한 항목
+### 📍 로그인 기능 구현 -> member정보 파라미터로 넘기지 않기
+현재 서버는 로그인 기능이 없어서 member정보를 param으로 넘기게 설계되어 있습니다. (GET /api/v1/cities?member={id}). 
+로그인한 사용자는 자신의 정보를 param으로 넘길일이 없도록, Session 또는 jwt로 사용자 정보를 얻을 수 있도록 개선하는 부분이 필요합니다. 
+
 
 
 
