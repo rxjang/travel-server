@@ -1,6 +1,7 @@
 package io.travel.city.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.travel.city.model.dto.CityByMemberListResponse;
 import io.travel.city.model.dto.CityCreateRequest;
 import io.travel.city.model.dto.CityResponse;
 import io.travel.city.model.dto.CityUpdateRequest;
@@ -20,7 +21,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.BDDMockito.willThrow;
-import static org.mockito.Mockito.mock;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
@@ -56,28 +56,6 @@ class CityApiTest {
                         .content(objectMapper.writeValueAsString(request)))
                 .andDo(print())
                 .andExpect(status().isCreated());
-    }
-
-    // TODO check
-    @Test
-    void 도시_등록_실패_400() throws Exception {
-        // given
-        CityCreateRequest request = new CityCreateRequest("");
-
-//        BindingResult bindingResult = new BeanPropertyBindingResult(new CityCreateRequest(), "");
-//        bindingResult.addError(new FieldError("", "cityName", "test"));
-//
-//        given(cityService.save(any()))
-//                .willThrow(new MethodArgumentNotValidException(, bindingResult));
-
-        // when
-        // then
-        mockMvc.perform(post("/api/v1/cities")
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
-                .andDo(print())
-                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -205,6 +183,22 @@ class CityApiTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void 사용자별_도시_목록_조회_200() throws Exception {
+        // given
+        Long memberId = 1L;
+
+        given(cityService.getCitiesByMember(memberId)).willReturn(new CityByMemberListResponse());
+
+        // when
+        // then
+        mockMvc.perform(get("/api/v1/cities?member={id}", memberId)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 
 }
