@@ -314,6 +314,38 @@ Content-Type: application/json
 </details>
 
 ## 구현 내용
+###  👉 환경별로 데이터베이스 구분 해 application.yml 작성
+스프링 부트 2.4 버전 이상을 사용해 설정 값은 application.yml 파일 하나에 관리하기로 했습니다.
+```yaml
+spring:
+  profiles:
+    active: deployment
+
+---
+spring:
+  config:
+    activate:
+      on-profile: deployment, test
+
+  jpa:
+    database: h2
+
+    ...
+    
+---
+spring:
+  config:
+    activate:
+      on-profile: production
+
+  jpa:
+    database: mysql
+    
+    ...
+
+```
+기본 환경은 상단에 `deployment`로 선언했습니다. `deployment` 와 `test` 환경은 `h2` DB를 사용하므로 같이 구성했고, 
+`production` 환경은 `mysql`을 사용하도록 구분했습니다.
 ###  👉 지정된 여행이 없을 경우만 도시 삭제
 여행 기간이 지난 여행이라도, 여행이 한 번이라도 등록되면 삭제 불가능하게 구현했습니다. 당장의 여행이 없더라도, 사용자가 기록을 확인 해야 한다고 생각했습니다.
 ``` java

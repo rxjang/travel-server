@@ -8,6 +8,12 @@ spring:
     activate:
       on-profile: deployment, test
 
+  jpa:
+    database: h2
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
   sql:
     init:
       mode: always
@@ -21,11 +27,6 @@ spring:
       settings:
         trace: false
         web-allow-others: false
-
-  jpa:
-    show-sql: true
-    hibernate:
-      ddl-auto: update
 
   datasource:
     generate-unique-name: false
