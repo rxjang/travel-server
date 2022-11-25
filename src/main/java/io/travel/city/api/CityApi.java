@@ -1,5 +1,6 @@
 package io.travel.city.api;
 
+import io.travel.city.model.dto.CityByMemberListResponse;
 import io.travel.city.model.dto.CityByMemberResponse;
 import io.travel.city.model.dto.CityCreateRequest;
 import io.travel.city.model.dto.CityResponse;
@@ -27,7 +28,7 @@ public class CityApi {
 
     private final CityService cityService;
 
-    public CityApi(CityService cityService) {
+    public CityApi(final CityService cityService) {
         this.cityService = cityService;
     }
 
@@ -63,7 +64,7 @@ public class CityApi {
     }
 
     @GetMapping
-    public ResponseEntity<List<CityByMemberResponse>> cities(@RequestParam("member") final Long memberId) {
+    public ResponseEntity<CityByMemberListResponse> cities(@RequestParam("member") final Long memberId) {
         return ResponseEntity
                 .ok(cityService.getCitiesByMember(memberId));
     }

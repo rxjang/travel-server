@@ -43,7 +43,7 @@ public class TravelApi {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Void> update(@PathVariable final Long id, @RequestBody TravelUpdateRequest request) {
+    public ResponseEntity<Void> update(@PathVariable final Long id, @RequestBody final TravelUpdateRequest request) {
         travelService.update(id, request);
         return ResponseEntity
                 .noContent()

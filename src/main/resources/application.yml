@@ -41,7 +41,9 @@ spring:
       on-profile: production
 
   jpa:
-    show-sql: true
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    show-sql: false
     hibernate:
       ddl-auto: none
 
@@ -53,6 +55,6 @@ spring:
 
   datasource:
     url: jdbc:mysql://localhost:3306/travel_ex?serverTimezone=Asia/Seoul
-    driver-class-name: com.mysql.cj.jdbc.Driver
     username: travel_test
     password: travel_test
+    driver-class-name: com.mysql.cj.jdbc.Driver

@@ -19,7 +19,7 @@ public class CityCustomRepositoryImpl implements CityCustomRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    public CityCustomRepositoryImpl(JPAQueryFactory jpaQueryFactory) {
+    public CityCustomRepositoryImpl(final JPAQueryFactory jpaQueryFactory) {
         this.jpaQueryFactory = jpaQueryFactory;
     }
 
