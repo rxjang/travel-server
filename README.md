@@ -9,13 +9,13 @@
 * H2, MySQL 8.0.31
 
 ## 실행 방법
-📍 실행 환경은 `deployment`, `test`, `production`이 있으며, default는 `deployment`입니다.  
+📍 실행 환경은 `deployment`,  `test`,  `production` 이 있으며, default는  `deployment` 입니다.  
 👉 `production` 환경 실행 시, 아래 명령어로 MySql 컨테이너를 실행시킵니다.  
-👉 db 스키마, 계정, 권한 관련 쿼리는 `src/main/resources/sql/init.sql`에 있습니다.
+👉 db 스키마,  계정,  권한 관련 쿼리는  `src/main/resources/sql/init.sql` 에 있습니다.
 ```bash
 docker-compose up
 ```
-그 외의 환경은 바로 스프링 애플리케이션을 빌드, 실행합니다. `deployment`환경으로 실행 시, `-Dspring.profiles.active=${실행 환경}`는 제거해도 됩니다. 
+그 외의 환경은 바로 스프링 애플리케이션을 빌드, 실행합니다.  `deployment` 환경으로 실행 시,  `-Dspring.profiles.active=${실행 환경}` 는 제거해도 됩니다. 
 ```bash
 ./gradlew build
 java -jar -Dspring.profiles.active=${실행 환경} build/libs/travel-0.0.1-SNAPSHOT.jar 
@@ -48,6 +48,7 @@ java -jar -Dspring.profiles.active=${실행 환경} build/libs/travel-0.0.1-SNAP
 └──     └── 📄 appilcation.yml   -test 프로젝트 설정값
 ```
 ## DB 구조
+<img width="586" alt="스크린샷 2022-11-26 오전 1 35 01" src="https://user-images.githubusercontent.com/68838251/204029036-196c0eb6-6b29-4710-9ae8-0cb77cfa6baf.png">
 기능 동작 확인을 위해 간단하게 설계 했습니다. 
 InnoDB를 DB Engine으로 사용했솝니다.
 
