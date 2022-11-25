@@ -10,12 +10,11 @@
 
 ## 실행 방법
 📍 실행 환경은 `deployment`,  `test`,  `production` 이 있으며, default는  `deployment` 입니다.  
-👉 `production` 환경 실행 시, 아래 명령어로 MySql 컨테이너를 실행시킵니다.  
-👉 db 스키마,  계정,  권한 관련 쿼리는  `src/main/resources/sql/init.sql` 에 있습니다.
+👉 `production` 환경 실행 시, 아래 명령어로 MySql 컨테이너를 실행시킵니다. (db 스키마,  계정,  권한 관련 쿼리는  `src/main/resources/sql/init.sql` 에 있습니다. )
 ```bash
 docker-compose up
 ```
-그 외의 환경은 바로 스프링 애플리케이션을 빌드, 실행합니다.  `deployment` 환경으로 실행 시,  `-Dspring.profiles.active=${실행 환경}` 는 제거해도 됩니다. 
+그 외의 환경은 바로 스프링 애플리케이션을 빌드,  실행합니다.  `deployment` 환경으로 실행 시,  `-Dspring.profiles.active=${실행 환경}` 는 제거해도 됩니다. 
 ```bash
 ./gradlew build
 java -jar -Dspring.profiles.active=${실행 환경} build/libs/travel-0.0.1-SNAPSHOT.jar 
@@ -50,8 +49,8 @@ java -jar -Dspring.profiles.active=${실행 환경} build/libs/travel-0.0.1-SNAP
 ## DB 구조
 <img width="586" alt="스크린샷 2022-11-26 오전 1 35 01" src="https://user-images.githubusercontent.com/68838251/204029036-196c0eb6-6b29-4710-9ae8-0cb77cfa6baf.png">   
 
-기능 동작 확인을 위해 간단하게 설계 했습니다. 
-InnoDB를 DB Engine으로 사용했솝니다.
+기능 동작 확인을 위해 간단하게 설계 했습니다.
+ InnoDB를 DB Engine으로 사용했솝니다.
 
 ## 구현 API
 ### 여행지(도시) API
@@ -314,7 +313,7 @@ Content-Type: application/json
 ```
 </details>
 
-## 핵심 기능 구현
+## 구현 내용
 ###  👉 지정된 여행이 없을 경우만 도시 삭제
 여행 기간이 지난 여행이라도, 여행이 한 번이라도 등록되면 삭제 불가능하게 구현했습니다. 당장의 여행이 없더라도, 사용자가 기록을 확인 해야 한다고 생각했습니다.
 ``` java
@@ -434,6 +433,10 @@ orderBy에는 총 세 가지의 정렬 조건이 있습니다.
 3. 최근 일주일 이내 조회 이력이 있는 도시는 가장 최근에 조회한 것부터  
    일주일 이내에 조회된 이력이 없는 도시의 조회 데이터는 필요하지 않으므로 on절에서 제외시켰습니다. 그리곤 조회일 내림차순으로 정렬했습니다.
 
+### 👉 사용자별 도시 목록 조회 API Response
+해당 API의 response는 `List<CityByMemberResponse>`가 아니라, 이를 객체로 한 번 감 싼 `CityByMemberListResponse` 입니다.
+추후 list 밖의 추가 데이터가 들어 갈 수 도있어 확장성을 고려했고,
+react를 사용했을 때 List로 바로 받는 것보다 상위에서 한 번 감싸져 오는게 편했던 경험이 있어 다음과 같이 구현했습니다. 
 
 ## 개선이 필요한 항목
 ### 📍 로그인 기능 구현 -> member정보 파라미터로 넘기지 않기
