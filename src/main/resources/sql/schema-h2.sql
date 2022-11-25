@@ -34,7 +34,7 @@ CREATE TABLE city_view_history (
     PRIMARY KEY (id)
 );
 
-ALTER TABLE travel ADD CONSTRAINT travel_city_fk_id FOREIGN KEY (city_id) REFERENCES city;
-ALTER TABLE travel ADD CONSTRAINT travel_member_fk_id FOREIGN KEY (member_id) REFERENCES member;
-ALTER TABLE city_view_history ADD CONSTRAINT city_view_history_city_fk_id FOREIGN KEY (city_id) REFERENCES city;
-ALTER TABLE city_view_history ADD CONSTRAINT city_view_history_member_fk_id FOREIGN KEY (member_id) REFERENCES member;
+ALTER TABLE travel ADD CONSTRAINT FK_TRAVEL_CITY_ID FOREIGN KEY (city_id) REFERENCES city;
+ALTER TABLE travel ADD CONSTRAINT FK_TRAVEL_MEMBER_ID FOREIGN KEY (member_id) REFERENCES member;
+ALTER TABLE city_view_history ADD CONSTRAINT FK_CITY_VIEW_HISTORY_CITY_ID FOREIGN KEY (city_id) REFERENCES city;
+ALTER TABLE city_view_history ADD CONSTRAINT FK_CITY_VIEW_HISTORY_MEMBER_ID FOREIGN KEY (member_id) REFERENCES member;

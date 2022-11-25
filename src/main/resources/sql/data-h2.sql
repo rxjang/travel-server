@@ -1,6 +1,5 @@
 INSERT INTO member (id, name, created_at) VALUES (default, 'test', CURRENT_TIMESTAMP());
 
--- 1
 INSERT INTO city (id, name, created_at) VALUES (default, 'Seoul', DATEADD('DAY', -10, CURRENT_TIMESTAMP())); -- 1
 INSERT INTO city (id, name, created_at) VALUES (default, 'Busan', DATEADD('DAY', -2, CURRENT_TIMESTAMP()));   -- 2
 INSERT INTO city (id, name, created_at) VALUES (default, 'Gwangju', DATEADD('DAY', -10, CURRENT_TIMESTAMP())); -- 3

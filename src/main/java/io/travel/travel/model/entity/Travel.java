@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,11 +33,11 @@ public class Travel extends CommonFields {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JoinColumn(name = "city_id", nullable = false)
+    @JoinColumn(name = "city_id", foreignKey = @ForeignKey(name="FK_TRAVEL_CITY_ID"), nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private City city;
 
-    @JoinColumn(name = "member_id", nullable = false)
+    @JoinColumn(name = "member_id", foreignKey = @ForeignKey(name="FK_TRAVEL_MEMBER_ID"), nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
