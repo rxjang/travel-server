@@ -1,4 +1,4 @@
-package io.travel.common.dto;
+package io.travel.common.model.dto;
 
 import lombok.Getter;
 

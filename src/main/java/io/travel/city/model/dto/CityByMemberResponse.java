@@ -25,6 +25,15 @@ public class CityByMemberResponse {
     private LocalDateTime searchedAt;
 
     @QueryProjection
+    public CityByMemberResponse(Long id, String name, LocalDateTime travelStartDate, LocalDateTime enrolledAt) {
+        this.id = id;
+        this.name = name;
+        this.isTraveling = true;
+        this.travelStartDate = travelStartDate;
+        this.enrolledAt = enrolledAt;
+    }
+
+    @QueryProjection
     public CityByMemberResponse(Long id, String name, boolean isTraveling, LocalDateTime travelStartDate, LocalDateTime enrolledAt, LocalDateTime searchedAt) {
         this.id = id;
         this.name = name;

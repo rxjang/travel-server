@@ -1,6 +1,6 @@
 package io.travel.member.model.entity;
 
-import io.travel.common.CommonFields;
+import io.travel.common.model.CommonFields;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

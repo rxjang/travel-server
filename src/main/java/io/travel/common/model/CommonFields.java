@@ -1,4 +1,4 @@
-package io.travel.common;
+package io.travel.common.model;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;

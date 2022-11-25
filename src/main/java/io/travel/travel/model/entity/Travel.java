@@ -1,7 +1,7 @@
 package io.travel.travel.model.entity;
 
 import io.travel.city.model.entity.City;
-import io.travel.common.CommonFields;
+import io.travel.common.model.CommonFields;
 import io.travel.exception.invalidrequest.InvalidDateException;
 import io.travel.member.model.entity.Member;
 import io.travel.travel.model.dto.TravelCreateRequest;

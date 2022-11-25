@@ -2,7 +2,7 @@ package io.travel.city.model.entity;
 
 import io.travel.city.model.dto.CityCreateRequest;
 import io.travel.city.model.dto.CityUpdateRequest;
-import io.travel.common.CommonFields;
+import io.travel.common.model.CommonFields;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

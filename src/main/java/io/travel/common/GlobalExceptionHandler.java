@@ -1,6 +1,6 @@
 package io.travel.common;
 
-import io.travel.common.dto.ErrorResponse;
+import io.travel.common.model.dto.ErrorResponse;
 import io.travel.exception.invalidrequest.InvalidRequestException;
 import io.travel.exception.notfound.NotFoundException;
 import org.springframework.http.HttpStatus;
