@@ -473,7 +473,7 @@ react를 사용했을 때 List로 바로 받는 것보다 상위에서 한 번 �
 ## 테스트 내역
 테스트에는 Junit5, BDDMockito, MockMVC, AssertJ를 사용했습니다. API검증 테스트는 모두 진행 했으며, 단위 테스트는 City만 진행했습니다. 
 테스트는 `src/test/java/io/travel` 에서 확인할 수 있습니다. 실행 내역은 아래와 같습니다. 
-
+![테스트 결과](https://user-images.githubusercontent.com/68838251/204039734-6de0334a-80e2-4c5f-850a-0d97805ef937.png)
 ## 개선이 필요한 항목
 ### 📍 로그인 기능 구현 -> member정보 파라미터로 넘기지 않기
 현재 서버는 로그인 기능이 없어서 member정보를 param으로 넘기게 설계되어 있습니다. (GET /api/v1/cities?member={id}). 
