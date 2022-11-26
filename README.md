@@ -47,7 +47,7 @@ java -jar -Dspring.profiles.active=${실행 환경} build/libs/travel-0.0.1-SNAP
 │       ├── 📂 sql               - sql 쿼리 파일
 │       └── 📄 appilcation.yml   - 프로젝트 설정값
 ├── 📂 test
-├── 📂 java.io.travel
+│   ├── 📂 java.io.travel
 │   │   ├── 📂 city              - city domain api, service test
 │   │   ├── 📂 common            - test에서 쓰일 전역 value
 │   │   └── 📂 travel            - travel domain api test
