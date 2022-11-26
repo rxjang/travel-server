@@ -9,16 +9,24 @@
 * H2, MySQL 8.0.31
 
 ## 실행 방법
-📍 실행 환경은 `deployment`,  `test`,  `production` 이 있으며, default는  `deployment` 입니다.  
-👉 `production` 환경 실행 시, 아래 명령어로 MySql 컨테이너를 실행시킵니다. (db 스키마,  계정,  권한 관련 쿼리는  `src/main/resources/sql/init.sql` 에 있습니다. )
-```bash
-docker-compose up
-```
-그 외의 환경은 바로 스프링 애플리케이션을 빌드,  실행합니다.  `deployment` 환경으로 실행 시,  `-Dspring.profiles.active=${실행 환경}` 는 제거해도 됩니다. 
+📍 실행 환경은 `deployment`,  `test`,  `production` 이 있습니다.  
+👉 `production` 환경 실행 시
+* 아래 명령어로 MySql 컨테이너를 실행시킵니다. (db 스키마,  계정,  권한 관련 쿼리는  `src/main/resources/sql/init.sql` 에 있습니다. )
+    ```bash
+    docker-compose up
+    ```
+* `src/main/resources/sql/schema-mysql.sql` 내의 DDL을 실행해 테이블을 생성합니다. 
+* `src/main/resources/sql/data-mysql.sql` 을 통해 dummy data를 insert합니다.
+
+운영  환경이기에 실행시마다 자동으로 쿼리를 실행하지 않고 직접 sql을 입력하도록 했습니다. 
+
+👉 그 외의 환경은 바로 스프링 애플리케이션을 빌드, 실행합니다.  
+
 ```bash
 ./gradlew build
 java -jar -Dspring.profiles.active=${실행 환경} build/libs/travel-0.0.1-SNAPSHOT.jar 
 ```
+위 명령어로 스프링 애플리케이션을 시작합니다. `deployment` 환경으로 실행 시,  `-Dspring.profiles.active=${실행 환경}` 는 제거해도 됩니다.
 ## 프로젝트 구조
 ```
 📂 src
